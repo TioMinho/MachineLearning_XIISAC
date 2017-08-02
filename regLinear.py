@@ -34,10 +34,11 @@ if __name__=='__main__':
         for j in range(n_features):
             theta[j] = theta[j] - (alfa/n_examples) * np.sum(error * x[j,:])
 
-        print("###### Epoch", epochs, "######")
-        print("Error:", error_hist[epochs])
-        print("Thetas:\n", theta)
-        print("")
+        if(epochs % 50 == 0):
+            print("###### Epoch", epochs, "######")
+            print("Error:", error_hist[epochs])
+            print("Thetas:\n", theta)
+            print("")
         
         if(abs(error_hist[epochs] - error_hist[epochs-50]) <= epsilon):
             print("Gradient Converged!!!\nStopping at epoch", epochs)
@@ -60,6 +61,6 @@ if __name__=='__main__':
     
     plt.subplot(1,2,2)
     plt.grid()
-    plt.plot(error_hist[:63], "g-")
+    plt.plot(error_hist[:epochs], "g-")
     
     plt.show()

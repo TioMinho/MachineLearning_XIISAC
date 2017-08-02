@@ -27,7 +27,7 @@ if __name__=='__main__':
     y = data[:, 4]
     theta = np.zeros([np.size(x, 0), 1])
     
-    alfa = 0.005
+    alfa = 0.1
     max_epochs = 500000
     
     error_hist = np.zeros([max_epochs])
@@ -52,25 +52,29 @@ if __name__=='__main__':
             break
             
     plt.figure(1)
+    plt.title("Classificação do Iris Dataset Simplificado\n(Verde=Iris-setosa; Azul=Iris-virginica)")
+    plt.xlabel("Comprimento da Sépala (cm)")
+    plt.ylabel("Largura da Sépala (cm)")
     
-    plt.grid()
     pos = np.where(y == 1)
     neg = np.where(y == 0)
+    
+    plt.grid()
     plt.plot(x[1,pos], x[2,pos], 'go', x[1,neg], x[2,neg], 'bo')
     plt.show()
 
     plt.figure(2)
-    plt.title("Classificação do Iris Dataset Simplificado")
-    plt.xlabel("Comprimento da Sépala (cm)")
-    plt.ylabel("Largura da Sépala (cm)")
     deciBound = decisionBound(theta, x)
     
-#    plt.subplot(1,2,1)
+    plt.subplot(1,2,1)
+    plt.title("Classificação do Iris Dataset Simplificado\n(Verde=Iris-setosa; Azul=Iris-virginica)")
+    plt.xlabel("Comprimento da Sépala (cm)")
+    plt.ylabel("Largura da Sépala (cm)")
     plt.grid()
     plt.plot(x[1,pos], x[2,pos], 'go', x[1,neg], x[2,neg], 'bo', deciBound[0], deciBound[1], 'k-')
     
-#    plt.subplot(1,2,2)
-#    plt.grid()
-#    plt.plot(error_hist[:epochs], "g-")
+    plt.subplot(1,2,2)
+    plt.grid()
+    plt.plot(error_hist[:epochs], "g-")
     
     plt.show()
