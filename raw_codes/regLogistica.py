@@ -40,7 +40,7 @@ if __name__=='__main__':
     # Part 1: Data Pre-Processing #
     ###############################
     # Loads the data
-    data = np.loadtxt("datasets/irisDataSimple.txt")
+    data = np.loadtxt("../datasets/irisDataSimple.txt")
     
     n_examples = np.size(data,0)
     n_features = np.size(data,1) - 2

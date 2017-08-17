@@ -26,7 +26,7 @@ if __name__=='__main__':
     # Part 1: Data Pre-Processing #
     ###############################
     # Loads the data
-    data = np.loadtxt("datasets/cricketData.txt")
+    data = np.loadtxt("../datasets/data1.txt")
     
     n_examples = np.size(data,0)
     n_features = np.size(data,1)
@@ -37,11 +37,11 @@ if __name__=='__main__':
     theta = np.zeros([np.size(x, 0), 1])
     
     # Defines the hyperparameters and training measurements
-    alfa = 0.005
+    alfa = 0.001
     max_epochs = 500000
     
     error_hist = np.zeros([max_epochs])
-    epsilon = 0.01
+    epsilon = 0.001
     
     ######################################
     # Part 2: Linear Regression Training #
@@ -80,9 +80,9 @@ if __name__=='__main__':
     # First Figure: Dataset plotting
     plt.figure(1)
     
-    plt.title("Influence of Temperature on Cricket Chirp Rate")
-    plt.xlabel("Rate of Cricket Chirping")
-    plt.ylabel("Temperature (ºF)")
+    plt.title("Artificial Generated Data with Noise\n $f(x)=-13.15648 + 1.4928 * X$")
+    plt.xlabel("X")
+    plt.ylabel("f(X)")
     
     plt.grid()
     plt.plot(x[1,:], y, 'rx')
@@ -93,9 +93,9 @@ if __name__=='__main__':
     plt.figure(2)
     
     plt.subplot(1,2,1)
-    plt.title("Linear Regression Function Prediction\n(Black=ModelPrediction)")
-    plt.xlabel("Rate of Cricket Chirping")
-    plt.ylabel("Temperature (ºF)")
+    plt.title("Artificial Generated Data with Noise\n $f(x)=-13.15648 + 1.4928 * X$")
+    plt.xlabel("X")
+    plt.ylabel("f(X)")
     
     plt.grid()
     plt.plot(x[1,:], y, 'rx', x[1,:], h_theta(x, theta)[0,:], 'k-')
@@ -107,7 +107,8 @@ if __name__=='__main__':
     
     plt.grid()
     plt.plot(error_hist[:epochs], "g-")
-    
+
     plt.show()
-    
+
+
 #__
