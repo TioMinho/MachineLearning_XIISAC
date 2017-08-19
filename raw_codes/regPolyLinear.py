@@ -22,8 +22,13 @@ def errorFunction(errors):
 def featureExtraction(data, n_examples, complexity=1):
     x = np.ones(n_examples)
     for i in range(0, complexity):
-        x = np.array([x, np.transpose(data[:, 0:-1]) ** (i+1)])
+        x = np.vstack([x, np.transpose(data[:, 0:-1]) ** (i+1)])
     return x
+
+def normalizeData(data):
+	for i in range(1, np.size(data,0)):
+		 data[i,:] = (data[i,:]-np.mean(data[i,:])) / np.std(data[i,:])
+	return data
 
 # Main Function
 if __name__=='__main__':
@@ -35,88 +40,88 @@ if __name__=='__main__':
     data = np.loadtxt("../datasets/data1.txt")
     
     n_examples = np.size(data,0)
-    n_features = np.size(data,1)
     
     # Define the model parameters
-    x = featureExtraction(data, n_examples, 3)
+    x = normalizeData(featureExtraction(data, n_examples, 5))
     y = data[:, 1]
-    theta = np.zeros([np.size(x, 0), 1])
 
-    print(x)
+    n_features = np.size(x, 0)
+	
+    theta = np.zeros([n_features, 1]) - 1
+
+    # Defines the hyperparameters and training measurements
+    alfa = 0.1
+    max_epochs = 500000
     
-    # # Defines the hyperparameters and training measurements
-    # alfa = 0.001
-    # max_epochs = 500000
+    error_hist = np.zeros([max_epochs])
+    epsilon = 0.0001
     
-    # error_hist = np.zeros([max_epochs])
-    # epsilon = 0.001
-    
-    # ######################################
-    # # Part 2: Linear Regression Training #
-    # ######################################
-    # for epochs in range(max_epochs):
-    #     # Calculate the error vector from the current Model
-    #     y_pred = h_theta(x, theta)
-    #     error = y_pred - y
+    ######################################
+    # Part 2: Linear Regression Training #
+    ######################################
+    for epochs in range(max_epochs):
+        # Calculate the error vector from the current Model
+        y_pred = h_theta(x, theta)
+        error = y_pred - y
 
-    #     # Append new Least Square Error to History
-    #     error_hist[epochs] = errorFunction(error)
+        # Append new Least Square Error to History
+        error_hist[epochs] = errorFunction(error)
 
-    #     # Perform Gradient Descent
-    #     for j in range(n_features):
-    #         theta[j] = theta[j] - (alfa/n_examples) * np.sum(error * x[j,:])
+        # Perform Gradient Descent
+        for j in range(n_features):
+            theta[j] = theta[j] - (alfa/n_examples) * np.sum(error * x[j,:])
 
-    #     # Prints training status at each 100 epochs
-    #     if(epochs % 500 == 0):
-    #         print("###### Epoch", epochs, "######")
-    #         print("Error:", error_hist[epochs])
-    #         print("Thetas:\n", theta)
-    #         print("")
+        # Prints training status at each 100 epochs
+        if(epochs % 500 == 0):
+            print("###### Epoch", epochs, "######")
+            print("Error:", error_hist[epochs])
+            print("Thetas:\n", theta)
+            print("")
         
-    #     # Evaluate convergence and stops training if so
-    #     if(abs(error_hist[epochs] - error_hist[epochs-50]) <= epsilon):
-    #         print("Gradient Converged!!!\nStopping at epoch", epochs)
-    #         print("###### Epoch", epochs, "######")
-    #         print("Error:", error_hist[epochs])
-    #         print("Thetas:\n", theta)
-    #         print("")
-    #         break
+        # Evaluate convergence and stops training if so
+        if(abs(error_hist[epochs] - error_hist[epochs-50]) <= epsilon):
+            print("Gradient Converged!!!\nStopping at epoch", epochs)
+            print("###### Epoch", epochs, "######")
+            print("Error:", error_hist[epochs])
+            print("Thetas:\n", theta)
+            print("")
+            break
             
-    # #############################################
-    # # Part 3: Data Plotting and Training Result #
-    # #############################################
-    # # First Figure: Dataset plotting
-    # plt.figure(1)
+    #############################################
+    # Part 3: Data Plotting and Training Result #
+    #############################################
+    # First Figure: Dataset plotting
+    plt.figure(1)
     
-    # plt.title("Artificial Generated Data with Noise\n $f(x)=-13.15648 + 1.4928 * X$")
-    # plt.xlabel("X")
-    # plt.ylabel("f(X)")
+    plt.title("Artificial Generated Data with Noise\n $f(x)=-13.15648 + 1.4928 * X$")
+    plt.xlabel("X")
+    plt.ylabel("f(X)")
     
-    # plt.grid()
-    # plt.plot(x[1,:], y, 'rx')
+    plt.grid()
+    plt.plot(x[1,:], y, 'rx')
     
-    # plt.show()
+    plt.show()
     
-    # # Second Figure: Training results
-    # plt.figure(2)
+    # Second Figure: Training results
+    plt.figure(2)
     
-    # plt.subplot(1,2,1)
-    # plt.title("Artificial Generated Data with Noise\n $f(x)=-13.15648 + 1.4928 * X$")
-    # plt.xlabel("X")
-    # plt.ylabel("f(X)")
+    plt.subplot(1,2,1)
+    plt.title("Artificial Generated Data with Noise\n $f(x)=-13.15648 + 1.4928 * X$")
+    plt.xlabel("X")
+    plt.ylabel("f(X)")
     
-    # plt.grid()
-    # plt.plot(x[1,:], y, 'rx', x[1,:], h_theta(x, theta)[0,:], 'k-')
+    plt.grid()
+    plt.plot(x[1,:], y, 'rx', x[1,:], h_theta(x, theta)[0,:], 'k-')
     
-    # plt.subplot(1,2,2)
-    # plt.title("Error History")
-    # plt.xlabel("Epochs")
-    # plt.ylabel("Least Square Error")
+    plt.subplot(1,2,2)
+    plt.title("Error History")
+    plt.xlabel("Epochs")
+    plt.ylabel("Least Square Error")
     
-    # plt.grid()
-    # plt.plot(error_hist[:epochs], "g-")
+    plt.grid()
+    plt.plot(error_hist[:epochs], "g-")
 
-    # plt.show()
+    plt.show()
 
 
 #__
