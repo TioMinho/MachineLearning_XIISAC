@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 '''
-    Title:      Linear Regression
+    Title:      Polynomial Regression
     Author:     Minho Menezes
     
-    This is the code to perform a simple Linear Regression on a artificial generated dataset.
+    This is the code to perform a Polynomial Regression on a artificial generated dataset.
 '''
 
 # Libraries
@@ -37,12 +37,12 @@ if __name__=='__main__':
     # Part 1: Data Pre-Processing #
     ###############################
     # Loads the data
-    data = np.loadtxt("../datasets/data1.txt")
+    data = np.loadtxt("../datasets/dataPoly1.txt")
     
     n_examples = np.size(data,0)
     
     # Define the model parameters
-    x = normalizeData(featureExtraction(data, n_examples, 5))
+    x = normalizeData(featureExtraction(data, n_examples, 1))
     y = data[:, 1]
 
     n_features = np.size(x, 0)
@@ -75,7 +75,7 @@ if __name__=='__main__':
         if(epochs % 500 == 0):
             print("###### Epoch", epochs, "######")
             print("Error:", error_hist[epochs])
-            print("Thetas:\n", theta)
+            #print("Thetas:\n", theta)
             print("")
         
         # Evaluate convergence and stops training if so
